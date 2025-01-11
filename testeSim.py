@@ -356,6 +356,10 @@ class HeartSimulator(QMainWindow):
         self.legend_label.setAlignment(Qt.AlignCenter)
         self.legend_label.setStyleSheet("font-size: 16px; color: black;")
 
+        self.select_label = QLabel("Selecione uma droga para analisar (doses para um cão de 10kg)")
+        self.select_label.setAlignment(Qt.AlignCenter)
+        self.select_label.setStyleSheet("font-size: 16px; font-weight: bold; color: black;")
+
 
         self.drug_checkboxes = {}
         drug_names = [
@@ -378,6 +382,7 @@ class HeartSimulator(QMainWindow):
 
         for i, drug in enumerate(drug_names):
             checkbox = QCheckBox(drug)
+            checkbox.setStyleSheet("font-size: 16px; padding: 8px;")
             self.drug_checkboxes[drug] = checkbox
             self.grid_layout.addWidget(checkbox, i // 3, i % 3)
         
@@ -393,6 +398,7 @@ class HeartSimulator(QMainWindow):
         self.grid_layout.addWidget(self.next_button, len(drug_names) // 3 + 1, 0, 1, 3)
 
         self.main_layout.addLayout(self.top_layout)
+        self.main_layout.addWidget(self.select_label)
         self.main_layout.addLayout(self.grid_layout)
 
         self.central_widget.setLayout(self.main_layout)
