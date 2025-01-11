@@ -395,7 +395,13 @@ class HeartSimulator(QMainWindow):
 
         self.next_button = QPushButton('Próximo')
         self.next_button.clicked.connect(self.apply_selected_drugs)
-        self.grid_layout.addWidget(self.next_button, len(drug_names) // 3 + 1, 0, 1, 3)
+        self.close_button = QPushButton('Fechar')
+        self.close_button.clicked.connect(self.close)
+
+        button_layout = QHBoxLayout()
+        button_layout.addWidget(self.next_button)
+        button_layout.addWidget(self.close_button)
+        self.grid_layout.addLayout(button_layout, len(drug_names) // 3 + 1, 0, 1, 3)
 
         self.main_layout.addLayout(self.top_layout)
         self.main_layout.addWidget(self.select_label)
