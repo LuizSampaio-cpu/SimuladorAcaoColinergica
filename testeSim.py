@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QPushButton, QVBoxLayout, QHBoxLayout, QGridLayout, QLabel, QCheckBox)
+from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QPushButton, QVBoxLayout, QHBoxLayout, QGridLayout, QLabel, QCheckBox, QFileDialog)
 from PyQt5.QtCore import QTimer, Qt
 from PyQt5.QtGui import QPixmap, QPalette, QColor
 import matplotlib.pyplot as plt
@@ -85,6 +85,23 @@ class HeartRateGraph(FigureCanvas):
         self.line.set_data(self.x[:i], self.y[:i])
         return self.line,
 
+    def save_graph(self):
+        """Salva o gráfico completo, incluindo todos os dados, em um arquivo PDF."""
+        options = QFileDialog.Options()
+        file_path, _ = QFileDialog.getSaveFileName(self, "Salvar Gráfico", "", "PDF Files (*.pdf);;All Files (*)", options=options)
+        if file_path:
+            # Parar a animação antes de salvar, se necessário
+            if self.anim:
+                self.anim.event_source.stop()
+            
+            # Redesenhar o gráfico final com todos os dados para garantir a integridade
+            self.line.set_data(self.x, self.y)
+            self.ax.relim()  # Ajustar limites
+            self.ax.autoscale_view()
+            self.draw()
+            
+            # Salvar a figura completa como PDF
+            self.fig.savefig(file_path, format='pdf')
 
     def effect_noradrenalina(self, x):
         y_initial = 120
@@ -360,7 +377,6 @@ class HeartSimulator(QMainWindow):
         self.select_label.setAlignment(Qt.AlignCenter)
         self.select_label.setStyleSheet("font-size: 16px; font-weight: bold; color: black;")
 
-
         self.drug_checkboxes = {}
         drug_names = [
             "Noradrenalina 20mcg", "Alfabloqueador", "Neostigmina 0,5mg", 
@@ -395,11 +411,14 @@ class HeartSimulator(QMainWindow):
 
         self.next_button = QPushButton('Próximo')
         self.next_button.clicked.connect(self.apply_selected_drugs)
+        self.save_button = QPushButton('Salvar')
+        self.save_button.clicked.connect(self.save_graph_to_pdf)
         self.close_button = QPushButton('Fechar')
         self.close_button.clicked.connect(self.close)
 
         button_layout = QHBoxLayout()
         button_layout.addWidget(self.next_button)
+        button_layout.addWidget(self.save_button)
         button_layout.addWidget(self.close_button)
         self.grid_layout.addLayout(button_layout, len(drug_names) // 3 + 1, 0, 1, 3)
 
@@ -478,6 +497,17 @@ class HeartSimulator(QMainWindow):
             self.apply_atropina_effect()
         if "Hexametonio 20mg" in selected_drugs:
             self.apply_hexametonio_effect()
+
+    def save_graph_to_pdf(self):
+        options = QFileDialog.Options()
+        file_path, _ = QFileDialog.getSaveFileName(self, "Salvar Gráfico como PDF", "", "PDF Files (*.pdf);;All Files (*)", options=options)
+        
+        if file_path:
+            from matplotlib.backends.backend_pdf import PdfPages
+            # Criar um PDF e salvar a figura completa
+            with PdfPages(file_path) as pdf:
+                figure = self.heart_rate_graph.figure  # Acessa a figura completa do gráfico
+                figure.savefig(pdf, format='pdf')
 
         
     def apply_noradrenalina_effect(self):
