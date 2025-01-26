@@ -78,12 +78,18 @@ class HeartRateGraph(FigureCanvas):
         if self.anim:
             self.anim.event_source.stop()
         self.line.set_data([], [])
-        self.anim = FuncAnimation(self.fig, self.update_graph, frames=len(self.x), interval=100, blit=False)
+        self.ax.relim()
+        self.ax.autoscale_view()
+        self.anim = FuncAnimation(self.fig, self.update_graph, frames=len(self.x), interval=100, blit=False, repeat=False)
+        self.anim._stop = self.on_animation_complete
         self.draw()
 
     def update_graph(self, i):
         self.line.set_data(self.x[:i], self.y[:i])
         return self.line,
+
+    def on_animation_complete(self):
+        self.save_graph()
 
     def save_graph(self):
         """Salva o gráfico completo, incluindo todos os dados, em um arquivo PDF."""
@@ -409,7 +415,7 @@ class HeartSimulator(QMainWindow):
         self.drug_checkboxes["Hexametonio 20mg"].stateChanged.connect(self.handle_hexametonio_selection)
 
 
-        self.next_button = QPushButton('Próximo')
+        self.next_button = QPushButton('Aplicar')
         self.next_button.clicked.connect(self.apply_selected_drugs)
         self.save_button = QPushButton('Salvar')
         self.save_button.clicked.connect(self.save_graph_to_pdf)
