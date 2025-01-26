@@ -1,6 +1,6 @@
 # Simulador de Atividade Cardíaca
 
-Este projeto implementa um simulador interativo de atividade cardíaca com base em diferentes drogas aplicadas a um paciente. Ele combina visualizações dinâmicas, gráficos de pressão arterial e animações de batimentos cardíacos para ilustrar os efeitos fisiológicos das substâncias administradas.
+Este projeto implementa um simulador interativo de atividade cardíaca com base em diferentes drogas aplicadas em um cão doméstico de 10kg. Ele combina visualizações dinâmicas, gráficos de pressão arterial e animações de batimentos cardíacos para ilustrar os efeitos fisiológicos das substâncias administradas.
 
 ## Funcionalidades
 
