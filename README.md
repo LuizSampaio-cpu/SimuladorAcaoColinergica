@@ -12,7 +12,7 @@ Este projeto implementa um simulador interativo de atividade cardíaca com base 
 
 ## Drogas Suportadas
 
-O simulador suporta os seguintes fármacos (doses simuladas para um paciente de 10 kg):
+O simulador suporta os seguintes fármacos (doses simuladas para um cão doméstico de 10 kg):
 - Noradrenalina (20 mcg)
 - Adrenalina (20 mcg)
 - Isoprenalina (20 mcg)

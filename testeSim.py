@@ -92,22 +92,29 @@ class HeartRateGraph(FigureCanvas):
         self.save_graph()
 
     def save_graph(self):
-        """Salva o gráfico completo, incluindo todos os dados, em um arquivo PDF."""
         options = QFileDialog.Options()
         file_path, _ = QFileDialog.getSaveFileName(self, "Salvar Gráfico", "", "PDF Files (*.pdf);;All Files (*)", options=options)
         if file_path:
-            # Parar a animação antes de salvar, se necessário
-            if self.anim:
-                self.anim.event_source.stop()
-            
-            # Redesenhar o gráfico final com todos os dados para garantir a integridade
+            # Obtém o nome da droga administrada
+            if self.parent() and hasattr(self.parent(), 'current_drug'):
+                drug_name = self.parent().current_drug
+            else:
+                drug_name = "Droga não especificada"
+
+            original_title = self.ax.get_title()
+            self.ax.set_title(f"Efeito da Droga: {drug_name}")
+
             self.line.set_data(self.x, self.y)
-            self.ax.relim()  # Ajustar limites
+            self.ax.relim()
             self.ax.autoscale_view()
             self.draw()
-            
-            # Salvar a figura completa como PDF
-            self.fig.savefig(file_path, format='pdf')
+            self.fig.savefig(file_path, format="pdf", bbox_inches="tight")
+
+            # Restaura o título original após salvar
+            self.ax.set_title(original_title)
+
+           
+
 
     def effect_noradrenalina(self, x):
         y_initial = 120
@@ -476,7 +483,11 @@ class HeartSimulator(QMainWindow):
 
 
     def apply_selected_drugs(self):
+        
         selected_drugs = [drug for drug, checkbox in self.drug_checkboxes.items() if checkbox.isChecked()]
+        
+        self.current_drug = selected_drugs[0] if selected_drugs else "Nenhuma droga aplicada"
+
         if "Noradrenalina 20mcg" in selected_drugs:
             self.apply_noradrenalina_effect()
         if "Adrenalina 20mcg" in selected_drugs:
@@ -503,6 +514,8 @@ class HeartSimulator(QMainWindow):
             self.apply_atropina_effect()
         if "Hexametonio 20mg" in selected_drugs:
             self.apply_hexametonio_effect()
+
+
 
     def save_graph_to_pdf(self):
         options = QFileDialog.Options()
