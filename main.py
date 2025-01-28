@@ -7,11 +7,12 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import numpy as np
 from matplotlib.animation import FuncAnimation
 
+
 class HeartbeatAnimation(QLabel):
     def __init__(self):
         super().__init__()
-        self.systole_image = QPixmap("Sístole.jpg")
-        self.diastole_image = QPixmap("Diástole.jpg")
+        self.systole_image = QPixmap("assets/Sístole.jpg")
+        self.diastole_image = QPixmap("assets/Diástole.jpg")
         self.current_image = self.systole_image
         self.setFixedSize(400, 400)
         self.setScaledContents(True)
@@ -75,8 +76,8 @@ class HeartRateGraph(FigureCanvas):
         else:
             self.y = np.full_like(self.x, 120)
 
-        if self.anim:
-            self.anim.event_source.stop()
+        
+            
         self.line.set_data([], [])
         self.ax.relim()
         self.ax.autoscale_view()
