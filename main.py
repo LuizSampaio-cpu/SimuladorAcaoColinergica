@@ -132,10 +132,10 @@ class HeartRateGraph(FigureCanvas):
     def effect_adrenalina(self, x):
         y_initial = 120
         max_pressure = 150
-        low_pressure = 110
+        min_pressure = 110
         slope_up = (max_pressure - y_initial) / 2
-        slope_down = (low_pressure - max_pressure) / 2
-        slope_up_final = (y_initial - low_pressure) / 2
+        slope_down = (min_pressure - max_pressure) / 2
+        slope_up_final = (y_initial - min_pressure) / 2
 
         y = np.piecewise(
             x,
@@ -144,7 +144,7 @@ class HeartRateGraph(FigureCanvas):
                 y_initial, 
                 lambda x: slope_up * (x - 3) + y_initial, 
                 lambda x: slope_down * (x - 5) + max_pressure,
-                lambda x: slope_up_final * (x - 7) + low_pressure, 
+                lambda x: slope_up_final * (x - 7) + min_pressure, 
                 y_initial 
             ]
         )
@@ -233,8 +233,8 @@ class HeartRateGraph(FigureCanvas):
     def effect_alfabloqueador(self, x):
         y_initial = 120
         y_stabilize_low = 100 
-        y_peak = 130  
-        y_min = 80 
+        max_pressure = 130  
+        min_pressure = 80 
         y = np.piecewise(
             x,
             [ x < 2, (x >= 2) & (x < 3), (x >= 3) & (x < 4), (x >= 4) & (x < 4.5), (x >= 4.5) & (x < 5), (x >= 5) & (x < 6), x >= 6,],
@@ -242,9 +242,9 @@ class HeartRateGraph(FigureCanvas):
                 y_initial,  
                 lambda x: (y_stabilize_low - y_initial) * (x - 2) / 1 + y_initial,  
                 y_stabilize_low,  
-                lambda x: (y_peak - y_stabilize_low) * (x - 4) / 0.5 + y_stabilize_low, 
-                y_peak, 
-                lambda x: (y_min - y_peak) * (x - 5) / 1 + y_peak,  
+                lambda x: (max_pressure - y_stabilize_low) * (x - 4) / 0.5 + y_stabilize_low, 
+                max_pressure, 
+                lambda x: (min_pressure - max_pressure) * (x - 5) / 1 + max_pressure,  
                 y_initial, 
             ]
         )
@@ -533,7 +533,7 @@ class HeartSimulator(QMainWindow):
     def apply_noradrenalina_effect(self):
         self.heart_rate_graph.apply_drug("Noradrenalina 20mcg")
         self.legend_label.setText("<b>Noradrenalina:</b> Estímulo dos receptores alfa1 e beta1. Provoca vasoconstrição, que eleva a pressão arterial.<br>Estímulo do beta1 provoca taquicardia e aumenta a pressão sanguínea. <br>Devido ao grande aumento da PA, ocorrem reflexos que vencem o estímulo beta, provocando bradicardia reflexa.")
-        self.heartbeat_animation.set_speed(500)
+        self.heartbeat_animation.set_speed(700)
         QTimer.singleShot(3000, lambda: self.heartbeat_animation.set_speed(200))
         QTimer.singleShot(6000, lambda: self.heartbeat_animation.set_speed(700))
         QTimer.singleShot(9000, lambda: self.heartbeat_animation.set_speed(500))
@@ -541,94 +541,88 @@ class HeartSimulator(QMainWindow):
     def apply_adrenalina_effect(self):
         self.heart_rate_graph.apply_drug("Adrenalina 20mcg")
         self.legend_label.setText("<b>Adrenalina:</b> Estímulo dos receptores alfa1, gerando vasoconstrição, beta1 provocando taquicardia e beta2, provocando vasodilatação na área dos músculos. <br>Elevação da PA.")
-        self.heartbeat_animation.set_speed(500)
+        self.heartbeat_animation.set_speed(700)
         QTimer.singleShot(3000, lambda: self.heartbeat_animation.set_speed(200))
         QTimer.singleShot(6000, lambda: self.heartbeat_animation.set_speed(700))
         QTimer.singleShot(9000, lambda: self.heartbeat_animation.set_speed(500))
 
     def apply_isoprenalina_effect(self):
         self.heart_rate_graph.apply_drug("Isoprenalina 20mcg")
-        self.heartbeat_animation.set_speed(500)
+        self.heartbeat_animation.set_speed(700)
         self.legend_label.setText("<b>Isoprenalina: </b>Estimulante beta, provoca acentuada taquicardia, vasodilatação e queda da PA. Rapidamente capturada pelos tecidos.")
-        QTimer.singleShot(3000, lambda: self.heartbeat_animation.set_speed(200))
-        QTimer.singleShot(6000, lambda: self.heartbeat_animation.set_speed(700))
-        QTimer.singleShot(9000, lambda: self.heartbeat_animation.set_speed(200))
+        QTimer.singleShot(3000, lambda: self.heartbeat_animation.set_speed(100))
+        QTimer.singleShot(4000, lambda: self.heartbeat_animation.set_speed(700))
+
     
     def apply_efedrina_effect(self):
         self.heart_rate_graph.apply_drug("Efedrina 5mg")
-        self.heartbeat_animation.set_speed(400)
+        self.heartbeat_animation.set_speed(700)
         self.legend_label.setText("<b>Efedrina:</b> Pouca atuação em receptores beta. Ligeira taquicardia e hipertensão um pouco acentuada. Absorção mais demorada.")
         QTimer.singleShot(5000, lambda: self.heartbeat_animation.set_speed(500))
+        QTimer.singleShot(8000, lambda: self.heartbeat_animation.set_speed(700))
     
     def apply_acetilcolina_effect(self):
         self.heart_rate_graph.apply_drug("Acetilcolina 20mcg")
-        self.heartbeat_animation.set_speed(500)
+        self.heartbeat_animation.set_speed(700)
         self.legend_label.setText("<b>Acetilcolina: </b>Atuação nos receptores muscarínicos. Provoca bradicardia e vasodilatação, resultando em queda da PA.<br> Ação rápida pela degradação por acetilcolinesterase.")
         QTimer.singleShot(2000, lambda: self.heartbeat_animation.set_speed(900))
         QTimer.singleShot(4000, lambda: self.heartbeat_animation.set_speed(700))
-        QTimer.singleShot(6000, lambda: self.heartbeat_animation.set_speed(500))
-    
+
     def apply_pilocarpina_effect(self):
         self.heart_rate_graph.apply_drug("Pilocarpina 1,5mg")
-        self.heartbeat_animation.set_speed(500)
+        self.heartbeat_animation.set_speed(700)
         self.legend_label.setText("<b>Pilocarpina: </b>Estimula receptores muscarínicos, provocando bradicardia e vasodilatação, levando a queda de PA. <br>Ação mais duradoura por não ser metabolizada por colinesterases.")
-        QTimer.singleShot(3000, lambda: self.heartbeat_animation.set_speed(500))
+        QTimer.singleShot(3000, lambda: self.heartbeat_animation.set_speed(800))
         QTimer.singleShot(6000, lambda: self.heartbeat_animation.set_speed(700))
-        QTimer.singleShot(9000, lambda: self.heartbeat_animation.set_speed(200))
+        
 
     def apply_alfabloqueador_effect(self):
         self.heart_rate_graph.apply_drug("Alfabloqueador")
-        self.heartbeat_animation.set_speed(500)
+        self.heartbeat_animation.set_speed(700)
         self.legend_label.setText("<b>Alfabloqueador: </b>Bloqueio dos receptores alfa, provocando vasodilatação e hipotensão.<br> Na presença de, primeiro, noradrenalina, há uma pequena taquicardia e elevação da PA. <br>Posteriormente, na presença de Adrenalina, há vasodilatação e provoca hipotensão.")  
-        QTimer.singleShot(2000, lambda: self.heartbeat_animation.set_speed(800))  
+        QTimer.singleShot(2000, lambda: self.heartbeat_animation.set_speed(700))  
         QTimer.singleShot(3000, lambda: self.heartbeat_animation.set_speed(400))  
         QTimer.singleShot(3500, lambda: self.heartbeat_animation.set_speed(600))  
         QTimer.singleShot(5000, lambda: self.heartbeat_animation.set_speed(500))  
         
     def apply_neostigmina_effect(self):
         self.heart_rate_graph.apply_drug("Neostigmina 0,5mg")
-        self.heartbeat_animation.set_speed(500)  
+        self.heartbeat_animation.set_speed(700)
         self.legend_label.setText("<b>Nesotigmina: </b>Afeta as enzimas que degradam a acetilcolina, causando uma ação mais demorada dela.<br> Provoca uma ligeira queda de PA e, ao administrar 20mcg de Acetilcolina,<br> há uma bradicardia intensa, hipotensão acentuada e aumento da duração do efeito da acetilcolina")
         QTimer.singleShot(2000, lambda: self.heartbeat_animation.set_speed(800))  
-        QTimer.singleShot(3000, lambda: self.heartbeat_animation.set_speed(400))  
-        QTimer.singleShot(3500, lambda: self.heartbeat_animation.set_speed(600))  
-        QTimer.singleShot(5000, lambda: self.heartbeat_animation.set_speed(500))
+        QTimer.singleShot(3000, lambda: self.heartbeat_animation.set_speed(1000))  
+        QTimer.singleShot(4000, lambda: self.heartbeat_animation.set_speed(700))  
     
     def apply_nicotina_effect(self):
         self.heart_rate_graph.apply_drug("Nicotina 300mg")
-        self.heartbeat_animation.set_speed(500) 
+        self.heartbeat_animation.set_speed(700)
         self.legend_label.setText("<b>Nicotina: </b>Atua como estimulante ganglionar, liberando Na nos neurônios pela atuação nos receptores de Ac. <br>Provoca bradicardia e queda da PA ao se ligar aos gânglios parassimpáticos. <br>Ao se ligar aos gânglios simpáticos, provoca taquicardia e hipertensão") 
         QTimer.singleShot(2000, lambda: self.heartbeat_animation.set_speed(800))  
         QTimer.singleShot(3000, lambda: self.heartbeat_animation.set_speed(400))  
-        QTimer.singleShot(3500, lambda: self.heartbeat_animation.set_speed(600))  
-        QTimer.singleShot(5000, lambda: self.heartbeat_animation.set_speed(500))
+        QTimer.singleShot(3500, lambda: self.heartbeat_animation.set_speed(500))  
+        QTimer.singleShot(5000, lambda: self.heartbeat_animation.set_speed(700))
     
     def apply_propanolol_effect(self):
         self.heart_rate_graph.apply_drug("Propanolol 10mg")
-        self.heartbeat_animation.set_speed(500) 
+        self.heartbeat_animation.set_speed(700)
         self.legend_label.setText("<b>Propanolol: </b>Bloqueia os receptores beta 1 e 2. Causa bradicardia e vasoconstrição na área dos músculos esqueléticos. <br>Na presença de Isoprenalina, não se altera a FC e a PA. <br> Na presença de NA e AD, há apenas o aumento da PA") 
         QTimer.singleShot(2000, lambda: self.heartbeat_animation.set_speed(800))  
-        QTimer.singleShot(3000, lambda: self.heartbeat_animation.set_speed(400))  
-        QTimer.singleShot(3500, lambda: self.heartbeat_animation.set_speed(600))  
-        QTimer.singleShot(5000, lambda: self.heartbeat_animation.set_speed(500))
+   
 
     def apply_atropina_effect(self):
         self.heart_rate_graph.apply_drug("Atropina 10mg")
-        self.heartbeat_animation.set_speed(500) 
+        self.heartbeat_animation.set_speed(700)
         self.legend_label.setText("<b>Atropina: </b>Bloqueia os receptores muscarínicos. Provoca taquicardia, pois a noradrenalina atua sem o bloqueio da acetilcolina.<br> Com o bloqueio, a administração de 20mcg de Acetilcolina é ineficaz. <br>A aplicação de 2mg de Acetilcolina provoca estímulo ganglionar, liberando noradrenalina nos tecidos, provocando taquicardia e hipertensão.") 
-        QTimer.singleShot(2000, lambda: self.heartbeat_animation.set_speed(800))  
-        QTimer.singleShot(3000, lambda: self.heartbeat_animation.set_speed(400))  
-        QTimer.singleShot(3500, lambda: self.heartbeat_animation.set_speed(600))  
-        QTimer.singleShot(5000, lambda: self.heartbeat_animation.set_speed(500))
+        QTimer.singleShot(2000, lambda: self.heartbeat_animation.set_speed(500))  
+        QTimer.singleShot(3000, lambda: self.heartbeat_animation.set_speed(400))   
+        QTimer.singleShot(5000, lambda: self.heartbeat_animation.set_speed(700))
 
     def apply_hexametonio_effect(self):
         self.heart_rate_graph.apply_drug("Hexametonio 20mg")
-        self.heartbeat_animation.set_speed(500) 
+        self.heartbeat_animation.set_speed(700)
         self.legend_label.setText("<b>Hexametonio: </b>Bloqueador ganglionar, provoca taquicardia e hipotensão. Mesmo ao aplicar a Nicotina e 2mg de Acetilcolina, pelo bloqueio ganglionar, não apresentam efeito.") 
-        QTimer.singleShot(2000, lambda: self.heartbeat_animation.set_speed(800))  
-        QTimer.singleShot(3000, lambda: self.heartbeat_animation.set_speed(400))  
-        QTimer.singleShot(3500, lambda: self.heartbeat_animation.set_speed(600))  
-        QTimer.singleShot(5000, lambda: self.heartbeat_animation.set_speed(500))
+        QTimer.singleShot(2000, lambda: self.heartbeat_animation.set_speed(500))  
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
