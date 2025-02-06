@@ -46,8 +46,7 @@ pip install -r requirements.txt
 ### Execução
 Clone este repositório e execute o simulador:
 ```bash
-git clone https://github.com/seu-usuario/simulador-cardíaco.git
-cd simulador-cardíaco
+git clone https://github.com/LuizSampaio-cpu/SimuladorAcaoColinergica.git
 python main.py
 ```
 

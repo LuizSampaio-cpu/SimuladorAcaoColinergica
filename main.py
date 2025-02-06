@@ -20,7 +20,7 @@ class HeartbeatAnimation(QLabel):
 
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_image)
-        self.timer.start(500)  # Intervalo inicial padrão de 500ms
+        self.timer.start(700)  # Intervalo inicial padrão de 500ms
 
     def update_image(self):
         if self.current_image == self.systole_image:
@@ -40,8 +40,9 @@ class HeartRateGraph(FigureCanvas):
         self.ax.set_ylim(0, 200)
         self.ax.set_xlim(0, 10)
         self.ax.set_xlabel('')
-        self.ax.set_ylabel('Pressão Arterial')
-        self.ax.set_title('Efeito da Droga na Pressão Arterial')
+        self.ax.set_ylabel('Pressão Arterial', fontsize=22)
+        self.ax.set_title('Efeito da Droga na Pressão Arterial', fontsize=22)
+        self.ax.tick_params(axis='both', labelsize=22)
         self.line, = self.ax.plot([], [], lw=2)
         self.anim = None
 
@@ -385,11 +386,11 @@ class HeartSimulator(QMainWindow):
 
         self.legend_label = QLabel("Legenda: Nenhuma droga aplicada.")
         self.legend_label.setAlignment(Qt.AlignCenter)
-        self.legend_label.setStyleSheet("font-size: 16px; color: black;")
+        self.legend_label.setStyleSheet("font-size: 20px; color: black;")
 
         self.select_label = QLabel("Selecione uma droga para analisar (doses para um cão de 10kg)")
         self.select_label.setAlignment(Qt.AlignCenter)
-        self.select_label.setStyleSheet("font-size: 16px; font-weight: bold; color: black;")
+        self.select_label.setStyleSheet("font-size: 24px; font-weight: bold; color: black;")
 
         self.drug_checkboxes = {}
         drug_names = [
@@ -412,7 +413,7 @@ class HeartSimulator(QMainWindow):
 
         for i, drug in enumerate(drug_names):
             checkbox = QCheckBox(drug)
-            checkbox.setStyleSheet("font-size: 16px; padding: 8px;")
+            checkbox.setStyleSheet("font-size: 24px; padding: 8px;")
             self.drug_checkboxes[drug] = checkbox
             self.grid_layout.addWidget(checkbox, i // 3, i % 3)
         
