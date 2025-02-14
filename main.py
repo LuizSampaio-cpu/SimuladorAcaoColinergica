@@ -430,6 +430,9 @@ class HeartSimulator(QMainWindow):
         self.save_button.clicked.connect(self.save_graph_to_pdf)
         self.close_button = QPushButton('Fechar')
         self.close_button.clicked.connect(self.close)
+        self.next_button.setStyleSheet("font-size: 24px; padding: 10px;")
+        self.save_button.setStyleSheet("font-size: 24px; padding: 10px;")
+        self.close_button.setStyleSheet("font-size: 24px; padding: 10px;")
 
         button_layout = QHBoxLayout()
         button_layout.addWidget(self.next_button)
@@ -621,7 +624,7 @@ class HeartSimulator(QMainWindow):
     def apply_hexametonio_effect(self):
         self.heart_rate_graph.apply_drug("Hexametonio 20mg")
         self.heartbeat_animation.set_speed(700)
-        self.legend_label.setText("<b>Hexametonio: </b>Bloqueador ganglionar, provoca taquicardia e hipotensão. Mesmo ao aplicar a Nicotina e 2mg de Acetilcolina, pelo bloqueio ganglionar, não apresentam efeito.") 
+        self.legend_label.setText("<b>Hexametonio: </b>Bloqueador ganglionar, provoca taquicardia e hipotensão. Mesmo ao aplicar a Nicotina e 2mg de Acetilcolina, <br>pelo bloqueio ganglionar, não apresentam efeito.") 
         QTimer.singleShot(2000, lambda: self.heartbeat_animation.set_speed(500))  
 
 
