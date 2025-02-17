@@ -37,7 +37,7 @@ class HeartRateGraph(FigureCanvas):
         self.fig, self.ax = plt.subplots(figsize=(3, 3))
         super().__init__(self.fig)
         
-        self.ax.set_ylim(0, 100)
+        self.ax.set_ylim(60, 200)
         self.ax.set_xlim(0, 10)
         self.ax.set_xlabel('')
         self.ax.set_ylabel('BPM', fontsize=20)
@@ -582,10 +582,10 @@ class HeartSimulator(QMainWindow):
                                           (self.heart_rate_graph.x >= 2) & (self.heart_rate_graph.x < 4), 
                                           (self.heart_rate_graph.x >= 4) & (self.heart_rate_graph.x < 6), 
                                           self.heart_rate_graph.x >= 6],
-                                         [60, 
-                                          lambda x: 60 + (80 - 60) / (4 - 2) * (x - 2), 
-                                          lambda x: 80 - (80 - 60) / (6 - 4) * (x - 4), 
-                                          60])
+                                         [100, 
+                                          lambda x: 100 + (80 - 60) / (4 - 2) * (x - 2), 
+                                          lambda x: 120 - (80 - 60) / (6 - 4) * (x - 4), 
+                                          100])
         blood_pressure_values = self.blood_pressure_graph.effect_noradrenalina
         
         self.heart_rate_graph.start_animation(heart_rate_values)
@@ -601,9 +601,9 @@ class HeartSimulator(QMainWindow):
         heart_rate_values = np.piecewise(self.heart_rate_graph.x, 
                                          [self.heart_rate_graph.x < 2, 
                                           (self.heart_rate_graph.x >= 2) & (self.heart_rate_graph.x < 4),(self.heart_rate_graph.x >= 4) & (self.heart_rate_graph.x < 6),self.heart_rate_graph.x >= 6],
-                                         [60, 
-                                          lambda x: 60 + (80 - 60) / (4 - 2) * (x - 2), lambda x: 80 - (80 - 60) / (6 - 4) * (x - 4), 
-                                          60])
+                                         [100, 
+                                          lambda x: 100 + (80 - 60) / (4 - 2) * (x - 2), lambda x: 120 - (80 - 60) / (6 - 4) * (x - 4), 
+                                          100])
         blood_pressure_values = self.blood_pressure_graph.effect_adrenalina
             
         self.heart_rate_graph.start_animation(heart_rate_values)
@@ -618,9 +618,9 @@ class HeartSimulator(QMainWindow):
         heart_rate_values = np.piecewise(self.heart_rate_graph.x, 
                                          [self.heart_rate_graph.x < 2, 
                                           (self.heart_rate_graph.x >= 2) & (self.heart_rate_graph.x < 3), (self.heart_rate_graph.x >=3) & (self.heart_rate_graph.x < 4), (self.heart_rate_graph.x >=4)],
-                                         [60, 
-                                          lambda x: 60 + (40) / (3 - 2) * (x - 2), lambda x: 100 - (40) / (4 - 3) * (x - 3),
-                                          60])
+                                         [100, 
+                                          lambda x: 100 + (40) / (3 - 2) * (x - 2), lambda x: 140 - (40) / (4 - 3) * (x - 3),
+                                          100])
         blood_pressure_values = self.blood_pressure_graph.effect_isoprenalina
         
         self.heart_rate_graph.start_animation(heart_rate_values)
@@ -635,9 +635,9 @@ class HeartSimulator(QMainWindow):
         heart_rate_values = np.piecewise(self.heart_rate_graph.x, 
                                          [self.heart_rate_graph.x < 3, 
                                           (self.heart_rate_graph.x >= 3) & (self.heart_rate_graph.x < 5), (self.heart_rate_graph.x >=5) & (self.heart_rate_graph.x < 8), (self.heart_rate_graph.x >=8)],
-                                         [60, 
-                                          lambda x: 60 + (15) / (5 - 3) * (x - 3), lambda x: 75 - (15) / (8 - 5) * (x - 5),
-                                          60])
+                                         [100, 
+                                          lambda x: 100 + (15) / (5 - 3) * (x - 3), lambda x: 115 - (15) / (8 - 5) * (x - 5),
+                                          100])
         blood_pressure_values = self.blood_pressure_graph.effect_efedrina
         
         self.heart_rate_graph.start_animation(heart_rate_values)
@@ -652,9 +652,9 @@ class HeartSimulator(QMainWindow):
         heart_rate_values = np.piecewise(self.heart_rate_graph.x, 
                                          [self.heart_rate_graph.x < 2, 
                                           (self.heart_rate_graph.x >= 2) & (self.heart_rate_graph.x < 3), (self.heart_rate_graph.x >=3) & (self.heart_rate_graph.x < 4), (self.heart_rate_graph.x >=4)],
-                                         [60, 
-                                          lambda x: 60 - (20) / (3 - 2) * (x - 2), lambda x: 40 + (20) / (4 - 3) * (x - 3),
-                                          60])
+                                         [100, 
+                                          lambda x: 100 - (20) / (3 - 2) * (x - 2), lambda x: 80 + (20) / (4 - 3) * (x - 3),
+                                          100])
         blood_pressure_values = self.blood_pressure_graph.effect_acetilcolina
         
         self.heart_rate_graph.start_animation(heart_rate_values)
@@ -669,9 +669,9 @@ class HeartSimulator(QMainWindow):
         heart_rate_values = np.piecewise(self.heart_rate_graph.x, 
                                          [self.heart_rate_graph.x < 3, 
                                           (self.heart_rate_graph.x >= 3) & (self.heart_rate_graph.x < 5), (self.heart_rate_graph.x >=5) & (self.heart_rate_graph.x < 7), (self.heart_rate_graph.x >=7)],
-                                         [60, 
-                                          lambda x: 60 + (-15) / (5 - 3) * (x - 3), lambda x: 45 - (-15) / (7 - 5) * (x - 5),
-                                          60])
+                                         [100, 
+                                          lambda x: 100 + (-15) / (5 - 3) * (x - 3), lambda x: 85 - (-15) / (7 - 5) * (x - 5),
+                                          100])
         blood_pressure_values = self.blood_pressure_graph.effect_pilocarpina
         
         self.heart_rate_graph.start_animation(heart_rate_values)
@@ -689,9 +689,9 @@ class HeartSimulator(QMainWindow):
         heart_rate_values = np.piecewise(self.heart_rate_graph.x, 
                                          [self.heart_rate_graph.x < 2, 
                                           (self.heart_rate_graph.x >= 2) & (self.heart_rate_graph.x < 3), (self.heart_rate_graph.x >=3) & (self.heart_rate_graph.x < 3.5), (self.heart_rate_graph.x >=  3.5) & (self.heart_rate_graph.x < 5), (self.heart_rate_graph.x >= 5)],
-                                         [60, 
-                                          lambda x: 60 + (20) / (3 - 2) * (x - 2), lambda x: 80 - (15) / (3.5 - 3) * (x - 3), lambda x: 65 - (-10) / (5 - 3.5) * (x - 3.5),
-                                          75])
+                                         [100, 
+                                          lambda x: 100 + (20) / (3 - 2) * (x - 2), lambda x: 120 - (15) / (3.5 - 3) * (x - 3), lambda x: 105 - (-10) / (5 - 3.5) * (x - 3.5),
+                                          115])
         blood_pressure_values = self.blood_pressure_graph.effect_alfabloqueador
         
         self.heart_rate_graph.start_animation(heart_rate_values)
@@ -707,9 +707,9 @@ class HeartSimulator(QMainWindow):
         heart_rate_values = np.piecewise(self.heart_rate_graph.x, 
                                          [self.heart_rate_graph.x < 2, 
                                           (self.heart_rate_graph.x >= 2) & (self.heart_rate_graph.x < 3), (self.heart_rate_graph.x >=3) & (self.heart_rate_graph.x < 4), (self.heart_rate_graph.x >=4)],
-                                         [60, 
-                                          lambda x: 60 - (40) / (3 - 2) * (x - 2), lambda x: 20 + (50) / (4 - 3) * (x - 3),
-                                          70])
+                                         [100, 
+                                          lambda x: 100 - (40) / (3 - 2) * (x - 2), lambda x: 60 + (50) / (4 - 3) * (x - 3),
+                                          110])
         blood_pressure_values = self.blood_pressure_graph.effect_neostigmina
         
         self.heart_rate_graph.start_animation(heart_rate_values)
@@ -726,9 +726,9 @@ class HeartSimulator(QMainWindow):
         heart_rate_values = np.piecewise(self.heart_rate_graph.x, 
                                          [self.heart_rate_graph.x < 2, 
                                           (self.heart_rate_graph.x >= 2) & (self.heart_rate_graph.x < 3), (self.heart_rate_graph.x >=3) & (self.heart_rate_graph.x < 3.5), (self.heart_rate_graph.x >=  3.5) & (self.heart_rate_graph.x < 5), (self.heart_rate_graph.x >= 5)],
-                                         [60, 
-                                          lambda x: 60 - (20) / (3 - 2) * (x - 2), lambda x: 40 + (40) / (3.5 - 3) * (x - 3), lambda x: 80 - (20) / (5 - 3.5) * (x - 3.5),
-                                          60])
+                                         [100, 
+                                          lambda x: 100 - (20) / (3 - 2) * (x - 2), lambda x: 80 + (40) / (3.5 - 3) * (x - 3), lambda x: 120 - (20) / (5 - 3.5) * (x - 3.5),
+                                          100])
         blood_pressure_values = self.blood_pressure_graph.effect_nicotina
         
         self.heart_rate_graph.start_animation(heart_rate_values)
@@ -742,9 +742,9 @@ class HeartSimulator(QMainWindow):
         heart_rate_values = np.piecewise(self.heart_rate_graph.x, 
                                          [self.heart_rate_graph.x < 2, 
                                           (self.heart_rate_graph.x >= 2) & (self.heart_rate_graph.x < 3), (self.heart_rate_graph.x >= 3) ],
-                                         [60, 
-                                          lambda x: 60 - (10) / (3 - 2) * (x - 2),
-                                          50])
+                                         [100, 
+                                          lambda x: 100 - (10) / (3 - 2) * (x - 2),
+                                          90])
         blood_pressure_values = self.blood_pressure_graph.effect_propanolol
         
         self.heart_rate_graph.start_animation(heart_rate_values)
@@ -761,9 +761,9 @@ class HeartSimulator(QMainWindow):
         heart_rate_values = np.piecewise(self.heart_rate_graph.x, 
                                          [self.heart_rate_graph.x < 2, 
                                           (self.heart_rate_graph.x >= 2) & (self.heart_rate_graph.x < 3), (self.heart_rate_graph.x >=3) & (self.heart_rate_graph.x < 4), (self.heart_rate_graph.x >= 4) & (self.heart_rate_graph.x < 5), (self.heart_rate_graph.x >=5)],
-                                         [60, 
-                                          lambda x: 60 + (20) / (3 - 2) * (x - 2), lambda x: 80 + (10) / (4 - 3) * (x - 3), lambda x: 90 - (30) / (5 - 4) * (x - 4),
-                                          60])
+                                         [100, 
+                                          lambda x: 100 + (20) / (3 - 2) * (x - 2), lambda x: 120 + (10) / (4 - 3) * (x - 3), lambda x: 130 - (30) / (5 - 4) * (x - 4),
+                                          100])
         blood_pressure_values = self.blood_pressure_graph.effect_atropina
         
         self.heart_rate_graph.start_animation(heart_rate_values)
@@ -777,9 +777,9 @@ class HeartSimulator(QMainWindow):
         heart_rate_values = np.piecewise(self.heart_rate_graph.x, 
                                          [self.heart_rate_graph.x < 3, 
                                           (self.heart_rate_graph.x >= 3) & (self.heart_rate_graph.x < 4), (self.heart_rate_graph.x >= 4) ],
-                                         [60, 
-                                          lambda x: 60 + (15) / (4 - 3) * (x - 3),
-                                          75])
+                                         [100, 
+                                          lambda x: 100 + (15) / (4 - 3) * (x - 3),
+                                          115])
         blood_pressure_values = self.blood_pressure_graph.effect_hexametonio
         
         self.heart_rate_graph.start_animation(heart_rate_values)
